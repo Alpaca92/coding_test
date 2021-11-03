@@ -68,3 +68,21 @@ function solution(numbers, hand) {
 처음 짠 코드는 시간초과로 실패하였다
 
 아무리 생각해도 나는 2차원 배열로 해결을 하는 방법밖에 떠오르지 않는데 어떻게 코드를 진행, 수정해야할지 모르겠다
+
+그 후에 다시 수정해 봤는데 일단
+```js
+  const currentPosition = [
+    {
+      hand: "L",
+      position: [3, 0],
+      distance: 0,
+    },
+    {
+      hand: "R",
+      position: [3, 2],
+      distance: 0,
+    },
+  ];
+```
+이 부분이 잘못되어 수정했고 몇 가지 문제를 수정했더니 해결되었다
+
