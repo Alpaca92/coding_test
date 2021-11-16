@@ -1,5 +1,24 @@
 function solution(n) {
-  return +[...n.toString(3)].map((digit) => (digit === 4 ? 3 : digit)).join("");
+  const arr = ["4", "1", "2"];
+  let result = "";
+
+  while (n > 0) {
+    const quotient = Math.floor(n / 3);
+    const remainder = n % 3;
+
+    if (quotient !== 0 && remainder === 0) {
+      result += arr[remainder];
+      n = quotient - 1;
+    } else if (quotient !== 0 && remainder !== 0) {
+      result += arr[remainder];
+      n = quotient;
+    } else {
+      result += arr[remainder];
+      break;
+    }
+  }
+
+  return [...result].reverse().join("");
 }
 
 /*
@@ -24,29 +43,4 @@ return = 4
 n = 4
 
 return = 11
-*/
-
-/*
-pseudo code
-
-1, 2, 4로만 구성되므로 경우의 수를 통해 숫자를 표현한다고 생각
-한 자릿수는 3 가지 경우
-두 자릿수는 3 * 3 가지 경우
-
-= 3 ** 1 + 3 ** 2 + 3 ** 3 + ...
-등비수열의 합 공식을 이용해서 Sn = a * (r ** n - 1) / (r - 1)
-
-let numberOfDigits = 1;
-const sum = 3 / 2 * (3 ** numberOfDigits - 1)
-
-while (sum < numberOfDigits)
-  ++numberOfDigits;
-
----
-
-3진법으로 숫자를 변형하고
-+[...number].map(digit => digit === 4 ? 3 : digit).join('');
-
----
-
 */
