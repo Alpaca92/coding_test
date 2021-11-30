@@ -1,4 +1,21 @@
-var mergeTwoLists = function (l1, l2) {};
+var mergeTwoLists = function (l1, l2) {
+  const arr = [];
+
+  for (i = 0; ; i += 2) {
+    if (l1.val) {
+      arr[i] = l1.val;
+      l1 = l1.next;
+    }
+    if (l2.val) {
+      arr[i + 1] = l2.val;
+      l2 = l2.next;
+    }
+
+    if (!l1 && !l2) break;
+  }
+
+  return arr.sort((a, b) => a - b);
+};
 
 /*
 examples
