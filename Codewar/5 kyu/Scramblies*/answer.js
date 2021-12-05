@@ -1,11 +1,11 @@
 function scramble(str1, str2) {
   for (let i = 0; i < str2.length; i++) {
-    if (str1.indexOf(str2[i]) === -1) {
+    const idx = str1.indexOf(str2[i]);
+
+    if (idx === -1) {
       return false;
     } else {
-      str1 =
-        str1.slice(0, str1.indexOf(str2[i])) +
-        str1.slice(str1.indexOf(str2[i]) + 1);
+      str1 = str1.slice(0, idx) + str1.slice(idx + 1);
     }
   }
 
