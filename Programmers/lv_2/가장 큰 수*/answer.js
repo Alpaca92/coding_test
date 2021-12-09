@@ -1,13 +1,23 @@
 function solution(numbers) {
-  return numbers
-    .map((number) => number.toString())
-    .sort((a, b) => b[0] - a[0])
-    .join("");
+  for (let i = numbers.length - 2; i >= 0; i--) {
+    let startIdx = i;
+
+    while (startIdx < numbers.length - 1) {
+      if (
+        +(numbers[startIdx].toString() + numbers[startIdx + 1].toString()) <=
+        +(numbers[startIdx + 1].toString() + numbers[startIdx].toString())
+      ) {
+        const temp = numbers[startIdx];
+        numbers[startIdx] = numbers[startIdx + 1];
+        numbers[startIdx + 1] = temp;
+      }
+
+      ++startIdx;
+    }
+  }
+
+  return numbers.map(number => number.toString()).join('');
 }
-
-numbers = [3, 30, 34, 5, 9];
-
-console.log(solution(numbers));
 
 /*
 examples
@@ -21,10 +31,4 @@ return = "6210"
 numbers = [3, 30, 34, 5, 9]
 
 return = "9534330"
-*/
-
-/*
-psuedo code
-
-// 가장 왼쪽에 있는 숫자 ex. 3000 => 3, 49819027 => 4를 기준으로 내림차순 정렬한다
 */
