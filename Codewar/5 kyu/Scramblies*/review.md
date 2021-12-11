@@ -29,7 +29,6 @@ function scramble(str1, str2) {
   );
 }
 ```
-
 위와 같은 코드를 짰는데 `Execution Timed Out (12000 ms)`으로 실패하였다
 
 그래서 하나라도 없으면 바로 `false`가 나오도록 코드를 짜봤는데
@@ -53,12 +52,3 @@ function scramble(str1, str2) {
 그래도 동일하게 `Execution Timed Out (12000 ms)`으로 실패하였다
 
 그 다음으로는 obj에 각각의 알파벳의 갯수를 파악하고 str1의 각 알파벳의 갯수가 str2 이상이면 통과하도록 코드를 짜봤다
-
-하지만 위 역시 시간제한을 넘어 실패하였고 구글링을 해보니
-
-> 자바스크립트에 내장된 배열 메소드인 indexOf, findIndex, find, includes 같은 <br />
-> 메소드는 모두 내부적으로 linear searching을 사용하고 있다.
-
-라는 것을 보아 `indexOf()`메소드가 최대 시간낭비인 것 같다는 생각이 들었다
-
-이래서 배열들을 정렬한 후 이진탐색으로 찾아보는 방법을 고안해보았다
