@@ -64,7 +64,10 @@ str2 = 'commas'
 return = true
 */
 
-const str1 = "rkqodlw";
-const str2 = "world";
+/*
+pseudo code
 
-console.log(scramble(str1, str2));
+str1, str2를 둘 다 sorting한다
+str2의 첫번째 원소를 선택한다
+
+*/
