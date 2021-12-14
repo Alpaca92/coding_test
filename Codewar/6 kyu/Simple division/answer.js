@@ -10,14 +10,14 @@ function isPrime(num) {
 }
 
 function solve(a, b) {
-  for (let i = 1; i <= Math.ceil(a / 2); i++) {
-    if (!(a % i)) {
+  for (let i = 1; i <= Math.ceil(b / 2); i++) {
+    if (!(b % i)) {
       const primeFactor1 = isPrime(i) ? i : null;
-      const primeFactor2 = isPrime(a / i) ? a / i : null;
+      const primeFactor2 = isPrime(b / i) ? b / i : null;
 
       if (
-        (primeFactor1 && b % primeFactor1) ||
-        (primeFactor2 && b % primeFactor2)
+        (primeFactor1 && a % primeFactor1) ||
+        (primeFactor2 && a % primeFactor2)
       )
         return false;
     }
