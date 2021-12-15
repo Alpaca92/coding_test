@@ -1,35 +1,31 @@
 function solution(answers) {
-  const ANSWERS_LENGTH = answers.length;
-  let arr = ["12345", "21232425", "3311224455"];
-  const obj = {
-    1: 0,
-    2: 0,
-    3: 0,
-  };
+  const answerSheet1 = "12345"
+    .repeat(Math.ceil(answers.length / 5))
+    .slice(0, answers.length)
+    .split("");
+  const answerSheet2 = "21232425"
+    .repeat(Math.ceil(answers.length / 8))
+    .slice(0, answers.length)
+    .split("");
+  const answerSheet3 = "3311224455"
+    .repeat(Math.ceil(answers.length / 10))
+    .slice(0, answers.length)
+    .split("");
 
-  arr = arr.map((answer) => {
-    return answer
-      .repeat(Math.ceil(ANSWERS_LENGTH / answer.length))
-      .slice(0, ANSWERS_LENGTH);
+  answers.forEach((answer, idx) => {
+    answerSheet1[idx] -= answer;
+    answerSheet2[idx] -= answer;
+    answerSheet3[idx] -= answer;
   });
 
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < ANSWERS_LENGTH; j++) {
-      if (+arr[i][j] === answers[j]) obj[`${i + 1}`]++;
-    }
-  }
-
-  const result = Object.entries(obj)
-    .sort(([, a], [, b]) => b - a)
-    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
-
-  const answer = [];
-
-  for (const person in result) {
-    if (result[person] !== 0) answer.push(+person);
-  }
-
-  return answer;
+  return [
+    { name: 1, score: answerSheet1.filter((elem) => elem === 0).length },
+    { name: 2, score: answerSheet2.filter((elem) => elem === 0).length },
+    { name: 3, score: answerSheet3.filter((elem) => elem === 0).length },
+  ]
+    .filter(({ name, score }) => score !== 0)
+    .sort((a, b) => b.score - a.score)
+    .map(({ name, score }) => name);
 }
 
 /*
