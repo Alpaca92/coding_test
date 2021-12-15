@@ -1,14 +1,13 @@
 function scramble(str1, str2) {
-  for (let i = 0; i < str2.length; i++) {
-    const idx = str1.indexOf(str2[i]);
+  for (let i = 97; i < 123; i++) {
+    const regex = new RegExp(String.fromCharCode(i), "g");
 
-    if (idx === -1) {
+    if (
+      (str1.match(regex) ? str1.match(regex).length : 0) <
+      (str2.match(regex) ? str2.match(regex).length : 0)
+    )
       return false;
-    } else {
-      str1 = str1.slice(0, idx) + str1.slice(idx + 1);
-    }
   }
-
   return true;
 }
 
