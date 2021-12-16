@@ -1,6 +1,23 @@
 ### [모의고사](https://programmers.co.kr/learn/courses/30/lessons/42840)
 
 ```js
+/*
+pseudo code
+
+예약자의 본인의 이름이 있는지 확인한다
+있다면 예약자에서 본인의 이름을 없애고 분실자에서도 해당 번호의 이름을 지운다
+
+예약자의 전번호가 lost에 있는지를 확인한다
+있다면 예약자에서 본인의 이름을 없애고 분실자에서도 해당 번호의 이름을 지운다
+예약자의 전원을 다 훑어봤다면 이번엔 뒷번호가 lost에 있는지를 확인하고 지우기를 반복한다
+
+반복이 다 끝났다면 n - lost.length가 수업을 들을 수 있는 인원 수이다
+
+반례 : R L R L 이면 위 알고리즘대로 하면 3이지만 정답은 4이다
+*/
+```
+
+```js
 function solution(answers) {
   const ANSWERS_LENGTH = answers.length;
   let arr = ["12345", "21232425", "3311224455"];
@@ -162,3 +179,47 @@ function solution(answers) {
 하지만 마찬가지로 `test case 5 ~ 12, 14`를 통과하지 못했다
 
 반례를 찾은 후 다시 도전해봐야겠다
+
+\+ [12/16]
+
+구글링을 하여 정렬을 하는 것이 기본인듯하여 정렬을 하고 빈 배열을 만들어 풀어보았다
+
+```js
+/*
+pseudo code
+
+arr를 n개만큼 만든다 [0, 0, 0, 0, 0]
+모든 idx(lost의 있는 숫자 - 1)에 대해 -1을 해준다 [0, -1, 0, -1, 0]
+if 자기 idx(reserve의 있는 숫자 - 1)이 음수라면 거기에 1을 더해준다
+elif idx(reserve의 있는 숫자 - 2)이 음수라면 1을 더해준다
+elif idx(reserve의 있는 숫자)이 음수라면 1을 더해준다
+
+모든 reserve에 대하여 위 행위를 진행하고 return (filter >= 0).length
+*/
+```
+
+```js
+function solution(n, lost, reserve) {
+  const students = [...new Array(n)].map((student) => 0);
+
+  lost
+    .sort((a, b) => a - b)
+    .forEach((lostStudent) => --students[lostStudent - 1]);
+
+  reserve
+    .sort((a, b) => a - b)
+    .forEach((reserveStudent) => {
+      if (students[reserveStudent - 1] === -1) {
+        ++students[reserveStudent - 1];
+      } else if (students[reserveStudent - 2] === -1) {
+        ++students[reserveStudent - 2];
+      } else if (students[reserveStudent] === -1) {
+        ++students[reserveStudent];
+      }
+    });
+
+  return students.filter((student) => student === 0).length;
+}
+```
+
+이번엔 거의 모든 케이스에서 성공했지만 `test case 5`는 통과하지 못했다
