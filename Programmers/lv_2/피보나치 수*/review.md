@@ -48,3 +48,9 @@ function solution(n) {
 그래도 `13 ~ 14`의 런타임 에러는 없는 것을 보니 시간의 문제는 아닌듯 하였다
 
 결국 이 방법도 잘못된 방법임을 깨달았다 _[위 식의 증명과정](https://j1w2k3.tistory.com/330)_
+
+우여곡절 끝에 행렬로 푸는 방법을 찾아냈다
+
+> $\begin{pmatrix}F(n+1)\\F(n)\\ \end{pmatrix}$ = $\begin{pmatrix}1&1\\1&0\\ \end{pmatrix}$ ** n * $\begin{pmatrix}1\\0\\ \end{pmatrix}$
+
+이라는 논리였다 _[출처](https://ohgym.tistory.com/1)_

@@ -1,10 +1,4 @@
-function solution(n) {
-  return Math.round(
-    ((((1 + Math.sqrt(5)) / 2) ** n - ((1 - Math.sqrt(5)) / 2) ** n) /
-      Math.sqrt(5)) %
-      1234567
-  );
-}
+function solution(n) {}
 
 /*
 pseudo code
@@ -28,6 +22,16 @@ fib(0) + 2 * (fib(1) + fib(2) + fib(3) + fib(4) + ... + fib(n-3) ) + fib(n-2) ==
 ---
 
 1234567 === 127 * 9721 (둘 다 소수임)
+
+---
+
+행렬의 곱은
+
+(0, 0)   (0, 1)
+(1, 0) * (1, 1)
+
+--- 
+
 
 */
 
