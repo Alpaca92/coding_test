@@ -1,39 +1,15 @@
-function solution(n) {}
+function solution(n) {
+  if (n === 2) return 1;
 
-/*
-pseudo code
+  const fibNumbers = new Array(n + 1).fill(0);
+  fibNumbers[1] = 1;
 
-fib = 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
+  for (let i = 2; i <= n; i++) {
+    fibNumbers[i] = fibNumbers[i - 1] + fibNumbers[i - 2];
+  }
 
-n >= 2 일떄
-
-fib(0) + fib(1) = fib(2)
-fib(1) + fib(2) = fib(3)
-fib(2) + fib(3) = fib(4)
-fib(3) + fib(4) = fib(5)
-fib(4) + fib(5) = fib(6)
-...
-fib(n-2) + fub(n-1) = fib(n)
-------------------------
-fib(0) + 2 * (fib(1) + fib(2) + fib(3) + fib(4) + ... + fib(n-2) ) + fib(n-1) === fib(2) + fib(3) + fib(4) + fib(5) + ... + fib(n)
-fib(0) + 2 * (fib(1) + fib(2) + fib(3) + fib(4) + ... + fib(n-3) ) + fib(n-2) === fib(2) + fib(3) + fib(4) + fib(5) + ... + fib(n - 1)
-------------------------
-
----
-
-1234567 === 127 * 9721 (둘 다 소수임)
-
----
-
-행렬의 곱은
-
-(0, 0)   (0, 1)
-(1, 0) * (1, 1)
-
---- 
-
-
-*/
+  return fibNumbers[n] % 1234567;
+}
 
 /*
 examples
