@@ -76,4 +76,23 @@ function solution(n) {
   return fibNumbers[n] % 1234567;
 }
 ```
+
 `bottom up`방식으로 해결한 후에는 `test case 13 ~ 14`의 런타임 에러는 사라졌지만 `test case 7 ~ 14`가 실패하는건 여전하였다
+
+`100000번째 피보나치 수`를 콘솔로 찍어보니 `Infinity`가 나왔다
+
+결국 **숫자가 너무커서** `test case 7 ~ 14`에서 실패가 나는듯 하였다
+
+```js
+/*
+pseudo code
+
+p로 나눌 때의 나머지
+A = a * p + x
+B = b * p + y
+
+A + B = (a + b) * p + x + y
+이므로 (A % p) + (B % p) === (A + B) % p
+*/
+```
+라는 결론이 나왔고 모든 피보나치 수를 먼저 `1234567`로 저장하여 더해주기로 하였다

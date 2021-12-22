@@ -5,7 +5,8 @@ function solution(n) {
   fibNumbers[1] = 1;
 
   for (let i = 2; i <= n; i++) {
-    fibNumbers[i] = fibNumbers[i - 1] + fibNumbers[i - 2];
+    fibNumbers[i] =
+      (fibNumbers[i - 1] % 1234567) + (fibNumbers[i - 2] % 1234567);
   }
 
   return fibNumbers[n] % 1234567;
