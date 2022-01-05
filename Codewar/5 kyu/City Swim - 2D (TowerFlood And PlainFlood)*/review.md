@@ -1,0 +1,123 @@
+### [City Swim - 2D (TowerFlood And PlainFlood)](https://www.codewars.com/kata/58e77c88fd2d893a77000102/train/javascript)
+
+```js
+/*
+pseudo code
+
+0. towers.length > index : 반복조건
+1. elem 선택(index = 0으로 시작)
+  2-1. 1번에서 선택된 숫자가 다음 숫자보다 큰가? ==> 고점 배열에 저장 []
+       고점이 1개인가 ? ==> 1번으로
+       고점이 2개인가 ? ==> 3번으로
+  2-2. 고점이 0개 ? ==> continue;
+       고점이 1개 ? ==> 저점 배열에 저장 [] 후 1번으로
+  (고점이 2개인 경우)
+  3. 두 고점 중에 더 작은 고점을 선택한다
+  4. 선택된 고점과 각각의 저점들의 차이를 보관한다
+  5. 두 고점 중 앞에 있는 고점을 삭제하고 1번으로 돌아간다 
+*/
+```
+
+```js
+function rainVolume(towers) {
+  let result = 0;
+
+  towers.reduce((prev, cur, i) => {
+    if (
+      cur > towers[i + 1] ||
+      (i === towers.length - 1 && cur > towers[i - 1])
+    ) {
+      prev.high = prev.high ? [...prev.high, cur] : [cur];
+
+      if (prev.high.length === 2) {
+        const min = Math.min(...prev.high);
+        prev.low.map((num) => (result += min - num));
+        prev.high.shift;
+      }
+    } else {
+      if (prev.high) prev.low = prev.low ? [...prev.low, cur] : [cur];
+    }
+
+    return prev;
+  }, {});
+
+  return result;
+}
+```
+
+위와 같이 코드를 짰는데 `[1,0,5,2,6,3,10]`, `[15,0,6,10,11,2,5]`에서 실패를 했다
+
+단순한 오타가 있었고 `low`를 비워주지 않았다
+
+```js
+/* inside reduce */
+
+// before
+if (prev.high.length === 2) {
+  const min = Math.min(...prev.high);
+  prev.low.map((num) => (result += min - num));
+  prev.high.shift;
+}
+
+// after
+
+if (prev.high.length === 2) {
+  const min = Math.min(...prev.high);
+  prev.low.map((num) => (result += min - num));
+  prev.high.shift();
+  prev.low = [];
+}
+```
+
+하지만 아래와 같이 통과하지 못했고 보완할 부분들이 많았다
+
+> **_ERROR_** <br />
+> `Randomly generated test cases for rainVolume function:` <br />
+> 100 small random tests (10 <= number of towers < 30, 0 <= heights < 50) <br />
+> 100 medium random tests (100 <= number of towers < 200, 0 <= heights < 50) <br />
+> 100 medium, tall towers random tests (100 <= number of towers < 200, 0 <= heights < 5000) <br />
+> 100 big random tests (10000 <= number of towers < 15000, 0 <= heights < 50000)
+
+예를 들어 `[7, 6, 5, 4, 3, 2, 1]` 같은 배열에서는 고점이 바로 `[7, 6]`으로 등록되지만 저점은 하나도 존재하지 않는다
+
+처음부터 끝까지 끊임없이 낮아지는 배열이라면 결국 `return 0`인 것이다
+
+```js
+/*
+1. start index 찾기
+다음 숫자보다 크고, rebound가 없으면 됨
+(만약 start index가 있으면 변경하지 않음)
+
+2. rebound 찾기
+start index가 있으면서 다음 숫자보다 작은 숫자가 있다면 rebound = true
+
+3. end index 찾기
+rebound를 지나서 처음으로 다음 숫자보다 큰 지점
+*/
+```
+
+```js
+function rainVolume(towers) {
+  let result = 0;
+
+  towers.reduce((prev, cur, i, origin) => {
+    if (cur > origin[i + 1] && prev.rebound === undefined) {
+      prev.start = prev.start ? prev.start : i;
+    } else if (prev.start !== undefined && cur < origin[i + 1]) {
+      prev.rebound = true;
+    } else if (prev.rebound === true && cur > origin[i + 1]) {
+      prev.end = i;
+      const min = Math.min(origin[prev.start], origin[prev.end]);
+      origin
+        .slice(prev.start + 1, prev.end)
+        .map((height) => (result += min - height));
+      prev.start = prev.end;
+      delete prev.rebound;
+      delete prev.end;
+    }
+
+    return prev;
+  }, {});
+}
+```
+위와 같이 코드를 짰지만 하나도 통과하지 못했다
