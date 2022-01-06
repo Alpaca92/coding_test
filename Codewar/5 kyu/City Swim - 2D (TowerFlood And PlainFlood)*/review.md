@@ -71,8 +71,7 @@ if (prev.high.length === 2) {
 
 하지만 아래와 같이 통과하지 못했고 보완할 부분들이 많았다
 
-> **_ERROR_** <br />
-> `Randomly generated test cases for rainVolume function:` <br />
+> **_ERROR_** <br /> > `Randomly generated test cases for rainVolume function:` <br />
 > 100 small random tests (10 <= number of towers < 30, 0 <= heights < 50) <br />
 > 100 medium random tests (100 <= number of towers < 200, 0 <= heights < 50) <br />
 > 100 medium, tall towers random tests (100 <= number of towers < 200, 0 <= heights < 5000) <br />
@@ -120,4 +119,61 @@ function rainVolume(towers) {
   }, {});
 }
 ```
+
 위와 같이 코드를 짰지만 하나도 통과하지 못했다
+
+\+ [01/06]
+
+```js
+/*
+pseudo code
+
+0. let result = 0;
+1. 해당 숫자가 앞, 뒤와 비교해 봤을 때 크거나 같은가 ?
+앞, 혹은 뒤가 undefined 이면(처음과 끝의 숫자면) 그 부분의 조건은 충족한 것으로 본다
+  n: 넘어간다
+  y: index를 arr에 저장한다
+    arr.length === 2이면
+    두 index의 차이가 1인가?
+      y: arr.shift()
+      n: 두 index에 해당하는 값 중 작은 값을 min에 넣고
+        towers.slice(앞 index + 1, 뒤 index).map(height => result += min - height);
+        arr.shift()
+*/
+```
+
+```js
+function rainVolume(towers) {
+  let result = 0;
+
+  towers.reduce((prev, cur, i, origin) => {
+    if (
+      cur >= (origin[i - 1] !== undefined ? origin[i - 1] : 0) &&
+      cur >= (origin[i + 1] !== undefined ? origin[i + 1] : 0)
+    ) {
+      prev.push(i);
+
+      if (prev.length === 2) {
+        if (prev[1] - prev[0] !== 1) {
+          const min =
+            origin[prev[0]] <= origin[prev[1]]
+              ? origin[prev[0]]
+              : origin[prev[1]];
+
+          origin
+            .slice(prev[0] + 1, prev[1])
+            .map((height) => (result += min - height));
+        }
+
+        prev.shift();
+      }
+    }
+
+    return prev;
+  }, []);
+
+  return result;
+}
+```
+
+하지만 또 실패하였다
