@@ -177,3 +177,49 @@ function rainVolume(towers) {
 ```
 
 하지만 또 실패하였다
+
+\+ [01/08]
+
+```js
+/*
+pseudo code
+
+1. towers에서 가장 큰 값을 찾는다
+2. 1번의 값과 같거나 혹은 앞, 뒤와 비교했을 때 크다면 arr에 넣는다
+   (단 undefined라면 0으로 치환한다)
+3. arr.length === 2라면 사이에 있는 건물의 높이랑 arr안에 있는 건물 중 낮은 높이의 건물과의 차이를 더한다
+*/
+```
+
+```js
+function rainVolume(towers) {
+  let result = 0;
+  const max = Math.max(...towers);
+
+  towers.reduce((prev, cur, i, origin) => {
+    if (
+      cur === max ||
+      (cur > (origin[i - 1] ? origin[i - 1] : 0) &&
+        cur > (origin[i + 1] ? origin[i + 1] : 0))
+    ) {
+      prev.push(i);
+
+      if (prev.length === 2) {
+        const min = Math.min(origin[prev[0]], origin[prev[1]]);
+
+        origin
+          .slice(prev[0] + 1, prev[1])
+          .map((height) => (result += min - height));
+        prev.shift();
+      }
+    }
+    return prev;
+  }, []);
+
+  return result;
+}
+```
+위와 같은 코드도 통과하지 못했다
+
+위 코드의 반례로 `[3, 0, 4, 5, 6]`가 존재했다
+
