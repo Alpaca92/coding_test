@@ -219,7 +219,53 @@ function rainVolume(towers) {
   return result;
 }
 ```
+
 위와 같은 코드도 통과하지 못했다
 
 위 코드의 반례로 `[3, 0, 4, 5, 6]`가 존재했다
 
+\+ [01/13]
+
+```js
+/*
+pseudo code
+
+1. 현재 숫자가 다음 숫자보다 크거나 같은가 ? (다음 숫자가 없어 undefined면 y로 간주한다)
+  n: pass
+  y:  2. arr에 넣는다
+      3. arr.length === 2 ?
+        n: pass
+        y:  4. arr안의 값중에 작은 값(min)을 찾는다
+            5. arr안에 있는 값들 사이의 값을 heights라는 배열로 만든다
+            6. heights.forEach => min - height > 0 ?
+              n: pass
+              y:  7. 차이 값들을 더해 누적시킨다
+            8. 다 끝나면 arr.shift()로 앞의 값을 삭제한 후 1번으로 돌아간다
+9. 모든 반복이 끝나면 누적시킨 값을 return한다
+*/
+```
+
+```js
+function rainVolume(towers) {
+  return towers.reduce(
+    (acc, cur, i, origin) => {
+      if (cur >= origin[i + 1] || origin[i + 1] === undefined) {
+        acc.max.push(i);
+
+        if (acc.max.length === 2) {
+          const min = Math.min(origin[acc.max[0]], origin[acc.max[1]]);
+          const heights = origin.slice(acc.max[0] + 1, acc.max[1]);
+
+          heights.forEach(
+            (height) => (acc.result += min - height > 0 ? min - height : 0)
+          );
+          acc.max.shift();
+        }
+      }
+
+      return acc;
+    },
+    { result: 0, max: [] }
+  ).result;
+}
+```

@@ -1,38 +1,25 @@
 function rainVolume(towers) {
-  let result = 0;
-  const max = Math.max(...towers);
+  return towers.reduce(
+    (acc, cur, i, origin) => {
+      if (cur >= origin[i + 1] || origin[i + 1] === undefined) {
+        acc.max.push(i);
 
-  towers.reduce((prev, cur, i, origin) => {
-    if (
-      cur === max ||
-      (cur > (origin[i - 1] ? origin[i - 1] : 0) &&
-        cur > (origin[i + 1] ? origin[i + 1] : 0))
-    ) {
-      prev.push(i);
+        if (acc.max.length === 2) {
+          const min = Math.min(origin[acc.max[0]], origin[acc.max[1]]);
+          const heights = origin.slice(acc.max[0] + 1, acc.max[1]);
 
-      if (prev.length === 2) {
-        const min = Math.min(origin[prev[0]], origin[prev[1]]);
-
-        origin
-          .slice(prev[0] + 1, prev[1])
-          .map((height) => (result += min - height));
-        prev.shift();
+          heights.forEach(
+            (height) => (acc.result += min - height > 0 ? min - height : 0)
+          );
+          acc.max.shift();
+        }
       }
-    }
-    return prev;
-  }, []);
 
-  return result;
+      return acc;
+    },
+    { result: 0, max: [] }
+  ).result;
 }
-
-const arr = new Array(Math.floor(Math.random() * 20 + 10));
-
-for (let i = 0; i < arr.length; i++) {
-  arr[i] = Math.floor(Math.random() * 50);
-}
-
-console.log(`arr: ${arr}
-result: ${rainVolume(arr)}`);
 
 /*
 examples
