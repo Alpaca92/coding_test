@@ -1,12 +1,9 @@
 function solution(s) {
-  //
+  const max = Math.max(...s.split(" ").map((num) => +num));
+  const min = Math.min(...s.split(" ").map((num) => +num));
+
+  return `${min} ${max}`;
 }
-
-/*
-pseudo code
-
-
-*/
 
 /*
 examples
