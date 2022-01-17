@@ -54,13 +54,3 @@ arr = [1,2,3]
 
 return = 6
 */
-
-function nlcm(num) {
-  return num.reduce((a, b) => (a * b) / gcd(a, b));
-}
-
-function gcd(a, b) {
-  return a % b ? gcd(b, a % b) : b;
-}
-
-console.log(nlcm([2, 6, 8, 14]));
