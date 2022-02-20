@@ -1,38 +1,23 @@
 function solution(number, k) {
   const numberArrayFromString = [...number];
-  let removedNumber = null;
+  let smallest = [0, 0];
 
-  for (
-    let i = 0, numberArrayLength = numberArrayFromString.length;
-    i < numberArrayLength - 1;
-
-  ) {
-    if (k === 0) return numberArrayFromString.join("");
-
-    if (numberArrayFromString[i] < numberArrayFromString[i + 1]) {
-      [removedNumber] = numberArrayFromString.splice(i, 1);
-      --k;
-      i = i ? i - 1 : 0;
-
-      continue;
-    } else {
-      removedNumber = null;
-      ++i;
-    }
-
-    if (i === numberArrayLength - 1 && k !== 0)
-      return numberArrayFromString.slice(0, numberArrayLength - k).join("");
+  
+  if (numberArrayFromString[0] < numberArrayFromString[i + 1]) {
+    
+  } else {
+    if (numberArrayFromString[0] < smallest)
+      smallest = [numberArrayFromString[0], 0];
   }
 }
 
 /*
 pseudo code
 
-1. 선택된 숫자를 smallest와 비교해서 더 작다면 선택된 숫자를 assign한다
-2. 선택된 숫자가 다음 숫자보다 작으면 선택된 숫자를 지운다
-3. 
-2. 숫자를 지웠다면 맨 처음부터 다시 시작한다
-3. 아무것도 지우지 못했다면 맨 뒤에서 만큼 k만큼 지운다
+1. 선택한 숫자의 앞이랑 비교해본다 (index = 1 이상일 때)
+2. 선택한 숫자의 뒤랑 비교해본다
+3. k === 0 이면 return
+
 
 */
 

@@ -175,3 +175,29 @@ function solution(number, k) {
 ```
 
 이건 더 시간이 길어졌고 역시 `test case 10`은 시간초과로 통과하지 못했다
+
+\+ [02/20]
+
+```js
+function solution(number, k) {
+  const numberArrayFromString = [...number];
+
+  for (let i = 0, LENGTH = numberArrayFromString.length; i < LENGTH - 1; ) {
+    if (numberArrayFromString[i] < numberArrayFromString[i + 1]) {
+      numberArrayFromString.splice(i, 1);
+      --k;
+
+      if (k === 0) return numberArrayFromString.join("");
+
+      i = i === 0 ? i : i - 1;
+    } else {
+      if (i === LENGTH && k !== 0)
+        return numberArrayFromString.slice(0, LENGTH - k).join("");
+      ++i;
+    }
+  }
+}
+```
+
+`test case 12`실패했고 `test case 10`은 역시나 시간초과였다
+
