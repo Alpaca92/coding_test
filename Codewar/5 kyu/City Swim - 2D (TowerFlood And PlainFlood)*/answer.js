@@ -22,6 +22,12 @@ function rainVolume(towers) {
 }
 
 /*
+pseudo code
+
+
+*/
+
+/*
 examples
 
 <case 1>

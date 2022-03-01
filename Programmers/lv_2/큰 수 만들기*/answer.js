@@ -2,9 +2,7 @@ function solution(number, k) {
   const numberArrayFromString = [...number];
   let smallest = [0, 0];
 
-  
   if (numberArrayFromString[0] < numberArrayFromString[i + 1]) {
-    
   } else {
     if (numberArrayFromString[0] < smallest)
       smallest = [numberArrayFromString[0], 0];
@@ -17,7 +15,6 @@ pseudo code
 1. 선택한 숫자의 앞이랑 비교해본다 (index = 1 이상일 때)
 2. 선택한 숫자의 뒤랑 비교해본다
 3. k === 0 이면 return
-
 
 */
 
