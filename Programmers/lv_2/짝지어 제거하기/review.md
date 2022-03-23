@@ -34,3 +34,35 @@ function solution(s) {
 ```
 
 정규포현식을 사용했지만 replace와 match를 사용했기 때문인지 일반 테스트케이스에서도 시간초과가 발생하였다
+
+```js
+/*
+pseudo code
+
+1. 다음과 같으면 index를 2 더함
+2. 안같으면 ""에 더함
+*/
+```
+
+```js
+function solution(s) {
+  const stack = [];
+
+  for (let i = 0; i < s.length; ) {
+    if (s[i] === s[i + 1]) {
+      i += 2;
+    } else {
+      if (stack[stack.length - 1] === s[i]) {
+        stack.pop();
+      } else {
+        stack.push(s[i]);
+      }
+      ++i;
+    }
+  }
+
+  return stack.length === 0 ? 1 : 0;
+}
+```
+
+다시 처음으로 돌아와 O(n)으로 풀 방법을 찾아보다가 굳이 삭제 하지 않아도 되는 부분들은 삭제 대신 건너뛰는 것을 선택하니 해결할 수 있었다
