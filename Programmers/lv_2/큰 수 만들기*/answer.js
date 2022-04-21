@@ -1,5 +1,5 @@
 function solution(number, k) {
-  //
+  
 }
 
 /*
