@@ -270,4 +270,93 @@ function rainVolume(towers) {
 }
 ```
 
-\+ [03/01]
+\+ [05/13]
+
+침착하게 생각해보기위해 나타날 수 있는 경우를 생각해보았다
+
+```
+case#1 empty array
+
+[]
+
+case#2 ascending order
+
+[1, 2, 3, 4, 5 ,6]
+
+case#3 descending order
+
+[3, 2, 1]
+
+case#4 repeat
+
+[5, 5, 5]
+
+case#5 mixin
+
+[1, 2, 5, 5, 3, 2, 2, 1]
+```
+
+이를 활용해보려 했으나 이보다는 다음과 같이 경우의 수를 나누는게 좋을 것 같았다
+
+```
+element를 선택하여 다음 element 보다
+
+1. 같다
+  - 내림차순 중이라면 물이 고임
+  - 오름차순 중이라면 물이 고이지 않음
+2. 크다
+  - 내림차순을 의미
+3. 작다
+  - 오름차순을 의미
+4. 비교대상이 없다
+  마지막 element임을 의미
+```
+
+```js
+function getrainVolume(towers, start, end) {
+  let volume = 0;
+
+  const min = Math.min(towers[start], towers[end]);
+  const rows = towers.slice(start + 1, end);
+
+  for (const row of rows) {
+    volume += min - row;
+  }
+
+  return volume;
+}
+
+function rainVolume(towers) {
+  if (towers.length < 3) return 0;
+
+  let volume = 0;
+  let high;
+  let startDescending = false;
+
+  for (let i = 0; i < towers.length; ++i) {
+    if (!startDescending && towers[i] > towers[i + 1]) {
+      startDescending = true;
+
+      if (high !== undefined) {
+        volume += getrainVolume(towers, high, i);
+
+        high = i;
+      } else {
+        high = i;
+      }
+    } else if (startDescending && towers[i] < towers[i + 1]) {
+      startDescending = false;
+    } else if (!startDescending && i === towers.length - 1) {
+      volume += getrainVolume(towers, high, i);
+
+      return volume;
+    }
+  }
+
+  return volume;
+}
+```
+
+`Randomly generated test cases for rainVolume function`에서 다시 fail을 받았다
+
+어떤 케이스에서 문제가 되는건지 도저히 감이 오질 않는다

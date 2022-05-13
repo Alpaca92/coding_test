@@ -1,31 +1,45 @@
-function rainVolume(towers) {
-  return towers.reduce(
-    (acc, cur, i, origin) => {
-      if (cur >= origin[i + 1] || origin[i + 1] === undefined) {
-        acc.max.push(i);
+function getrainVolume(towers, start, end) {
+  let volume = 0;
 
-        if (acc.max.length === 2) {
-          const min = Math.min(origin[acc.max[0]], origin[acc.max[1]]);
-          const heights = origin.slice(acc.max[0] + 1, acc.max[1]);
+  const min = Math.min(towers[start], towers[end]);
+  const rows = towers.slice(start + 1, end);
 
-          heights.forEach(
-            (height) => (acc.result += min - height > 0 ? min - height : 0)
-          );
-          acc.max.shift();
-        }
-      }
+  for (const row of rows) {
+    volume += min - row;
+  }
 
-      return acc;
-    },
-    { result: 0, max: [] }
-  ).result;
+  return volume;
 }
 
-/*
-pseudo code
+function rainVolume(towers) {
+  if (towers.length < 3) return 0;
 
+  let volume = 0;
+  let high;
+  let startDescending = false;
 
-*/
+  for (let i = 0; i < towers.length; ++i) {
+    if (!startDescending && towers[i] > towers[i + 1]) {
+      startDescending = true;
+
+      if (high !== undefined) {
+        volume += getrainVolume(towers, high, i);
+
+        high = i;
+      } else {
+        high = i;
+      }
+    } else if (startDescending && towers[i] < towers[i + 1]) {
+      startDescending = false;
+    } else if (!startDescending && i === towers.length - 1) {
+      volume += getrainVolume(towers, high, i);
+
+      return volume;
+    }
+  }
+
+  return volume;
+}
 
 /*
 examples
