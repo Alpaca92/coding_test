@@ -1,23 +1,24 @@
 function solution(id_list, report, k) {
-  const result = new Array(id_list.length).fill(0);
+  const result = id_list.reduce((prev, cur) => ({ ...prev, [cur]: 0 }), {});
+  const usableReportList = [];
   const removedDuplication = [...new Set([...report])];
 
   id_list.forEach((id) => {
-    const reportedList = removedDuplication.filter((content) =>
+    const filteredReport = removedDuplication.filter((content) =>
       content.endsWith(` ${id}`)
     );
+    const isUsable = filteredReport.length >= k;
 
-    if (reportedList.length >= k) {
-      reportedList.forEach((reported) => {
-        const [reporter] = reported.split(" ");
-        const index = id_list.indexOf(`${reporter}`);
-
-        ++result[index];
-      });
-    }
+    if (isUsable) usableReportList.push(filteredReport);
   });
 
-  return result;
+  usableReportList.flat().forEach((usableReport) => {
+    const [reporter] = usableReport.split(" ");
+
+    ++result[reporter];
+  });
+
+  return Object.values(result);
 }
 
 /*
