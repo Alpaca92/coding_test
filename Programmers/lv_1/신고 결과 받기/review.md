@@ -52,3 +52,58 @@ function solution(id_list, report, k) {
 ```
 
 좀 더 획기적이라고 생각했는데 조금의 시간 단축은 있었지만 동일하게 case 3, 11 시간 초과로 실패함
+
+\+[Jul 25, 2022]
+
+```
+테스트 01 〉	통과 (0.42ms, 29.9MB)
+테스트 02 〉	통과 (0.51ms, 30.2MB)
+테스트 03 〉	통과 (5887.05ms, 80.9MB)
+테스트 04 〉	통과 (0.54ms, 30.1MB)
+테스트 05 〉	통과 (0.45ms, 30.1MB)
+테스트 06 〉	통과 (2.15ms, 30.1MB)
+테스트 07 〉	통과 (23.52ms, 32.8MB)
+테스트 08 〉	통과 (9.79ms, 32.1MB)
+테스트 09 〉	통과 (1564.83ms, 58.4MB)
+테스트 10 〉	통과 (65.72ms, 57.3MB)
+테스트 11 〉	통과 (1941.90ms, 80.7MB)
+테스트 12 〉	통과 (6.27ms, 31.9MB)
+테스트 13 〉	통과 (0.77ms, 30MB)
+테스트 14 〉	통과 (1933.17ms, 52.7MB)
+테스트 15 〉	통과 (136.67ms, 61.4MB)
+테스트 16 〉	통과 (1.44ms, 30MB)
+테스트 17 〉	통과 (0.80ms, 30.1MB)
+테스트 18 〉	통과 (6.13ms, 32MB)
+테스트 19 〉	통과 (7.14ms, 32.1MB)
+테스트 20 〉	통과 (1601.23ms, 52.5MB)
+테스트 21 〉	통과 (3155.20ms, 67.1MB)
+테스트 22 〉	통과 (0.33ms, 30MB)
+테스트 23 〉	통과 (0.34ms, 30MB)
+테스트 24 〉	통과 (0.28ms, 30MB)
+```
+
+통과는 했지만 메모리를 많이 잡아먹는 방법인듯했다
+
+아래의 풀이는 가장 좋아요를 많이 받은 풀이다
+
+```js
+function solution(id_list, report, k) {
+    let reports = [...new Set(report)].map(a=>{return a.split(' ')});
+    let counts = new Map();
+    for (const bad of reports){
+        counts.set(bad[1],counts.get(bad[1])+1||1)
+    }
+    let good = new Map();
+    for(const report of reports){
+        if(counts.get(report[1])>=k){
+            good.set(report[0],good.get(report[0])+1||1)
+        }
+    }
+    let answer = id_list.map(a=>good.get(a)||0)
+    return answer;
+}
+```
+
+처음에 중복되는 데이터를 없애고 split으로 2차원 배열을 만드는 것까지는 비슷했지만 이를 다루는 방식에서 큰 차이가 났던 것 같다
+
+문제를 좀 더 직관적으로 보는 시각을 더 키워야겠다
