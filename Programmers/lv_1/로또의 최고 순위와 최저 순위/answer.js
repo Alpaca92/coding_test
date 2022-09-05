@@ -1,40 +1,17 @@
-function rankingCalculator(lottos, win_nums) {
-  let counter = 0;
-
-  for (let i = 0; i < lottos.length; i++) {
-    if (win_nums.includes(lottos[i])) counter++;
-    continue;
-  }
-
-  return counter;
-}
-
 function solution(lottos, win_nums) {
-  const sortedLottos = lottos.sort((a, b) => b - a);
-  const idx = sortedLottos.indexOf(0);
-  let result = [];
+  const illegibleNumbers = lottos.filter((lotto) => lotto === 0).length;
+  const matchedNumbers = win_nums.reduce(
+    (acc, cur) => (acc += lottos.includes(cur) ? 1 : 0),
+    0
+  );
 
-  if (idx !== -1) {
-    // 0이 하나라도 있을 때
-    const unknownNumbers = sortedLottos.slice(idx).length;
-    const knownNumbers = sortedLottos.slice(0, idx);
-    const MIN_WIN_NUMS =
-      knownNumbers.length !== 0 ? rankingCalculator(knownNumbers, win_nums) : 0;
+  const highestRank =
+    !illegibleNumbers && !matchedNumbers
+      ? 6
+      : 7 - (illegibleNumbers + matchedNumbers);
+  const lowestRank = !matchedNumbers ? 6 : 7 - matchedNumbers;
 
-    result = [MIN_WIN_NUMS + unknownNumbers, MIN_WIN_NUMS];
-  } else {
-    // 0이 하나도 없을 때
-    const MIN_WIN_NUMS = rankingCalculator(sortedLottos, win_nums);
-
-    result = [MIN_WIN_NUMS, MIN_WIN_NUMS];
-  }
-
-  return result.map((num) => {
-    // 맞춘게 0개거나 1개면 6등
-    if (num === 0 || num === 1) return 6;
-
-    return 7 - num;
-  });
+  return [highestRank, lowestRank];
 }
 
 /*
@@ -58,3 +35,5 @@ win_nums = [20, 9, 3, 45, 4, 35]
 
 result = [1, 1]
 */
+
+solution([44, 1, 0, 0, 31, 25], [31, 10, 45, 1, 6, 19]);
