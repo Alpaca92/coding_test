@@ -7,6 +7,4 @@ export function duplicateEncode(word: string, i: number = 0): string{
   if (chars.every((char, _, origin) => {
     isDuplicated(origin, char)
   })
-
-  
 }
