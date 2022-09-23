@@ -1,18 +1,22 @@
 function solution(number, k) {
-  const stack = [];
-  const numberArr = number.split('');
-  
-  for(let i = 0; i < numberArr.length - 1; i++) {
-    if (numberArr[i] > numberArr[i + 1]) {
-      stack.push([i, numberArr[i]]);
-    } else {
-      delete numberArr[i];
+  const numArr = [...number];
+  const isOnlyOneDigit = new Set([...number]).size === 1;
+  const isPerfectlyDescendingOrder =
+    number === numArr.sort((a, b) => +b - +a).join("");
 
-      if (stack.length) {
-        // nested for loop여서 안될 것 같음
-      }
+  if (isOnlyOneDigit || isPerfectlyDescendingOrder)
+    return number.slice(0, number.length - k);
+
+  for (let i = 0; i < number.length - 1; ++i) {
+    if (number[i] < number[i + 1]) {
+      number = number.slice(0, i) + number.slice(i + 1);
+      --k;
+      break;
     }
   }
+
+  if (k === 0) return number;
+  return solution(number, k);
 }
 
 /*
