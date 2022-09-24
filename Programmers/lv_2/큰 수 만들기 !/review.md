@@ -249,3 +249,56 @@ function solution(number, k) {
   return numberList.join("");
 }
 ```
+
+\+ [Sep 23, 2022]
+
+```js
+function solution(number, k) {
+  if (k === 0) return number;
+
+  const tempNumber = number;
+
+  for (let i = 0; i < number.length - 1; ++i) {
+    if (number[i] < number[i + 1]) {
+      number = number.slice(0, i) + number.slice(i + 1);
+      --k;
+      break;
+    }
+  }
+
+  return tempNumber !== number
+    ? solution(number, k)
+    : number.slice(0, number.length - k);
+}
+```
+
+위와 같이 작성했는데 6, 7, 8 케이스에서 `런타임 에러`, 10 케이스에서 `(signal: aborted (core dumped))`가 떴다
+
+그래서 무한히 동일한 숫자 `e.g. 111111111111111111111111111111111111111111111111111111`와 같은 숫자를 확인하기 위한 로직을 짰다
+
+그래도 실패하여 완벽하게 내림차순인 숫자를 제거하는 로직을 짰다 `e.g. 987654321`
+
+```js
+function solution(number, k) {
+  const numArr = [...number];
+  const isOnlyOneDigit = new Set([...number]).size === 1;
+  const isPerfectlyDescendingOrder =
+    number === numArr.sort((a, b) => +b - +a).join("");
+
+  if (isOnlyOneDigit || isPerfectlyDescendingOrder)
+    return number.slice(0, number.length - k);
+
+  for (let i = 0; i < number.length - 1; ++i) {
+    if (number[i] < number[i + 1]) {
+      number = number.slice(0, i) + number.slice(i + 1);
+      --k;
+      break;
+    }
+  }
+
+  if (k === 0) return number;
+  return solution(number, k);
+}
+```
+
+이번엔 6 ~ 10 케이스에서 `시간 초과`로 실패하였다
