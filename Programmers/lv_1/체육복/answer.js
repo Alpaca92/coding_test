@@ -1,30 +1,22 @@
 function solution(n, lost, reserve) {
-  const students = [...new Array(n)].map((student) => 0);
+  const students = new Array(n).fill(0);
 
-  lost
-    .sort((a, b) => a - b)
-    .forEach((lostStudentIdx) => --students[lostStudentIdx - 1]);
+  lost.forEach((loser) => {
+    students[loser - 1] += -1;
+  });
 
-  reserve
-    .filter((reserveStudentIdx) => {
-      if (students[reserveStudentIdx - 1] == -1) {
-        ++students[reserveStudentIdx - 1];
+  reserve.forEach((reserver) => {
+    students[reserver - 1] += +1;
+  });
 
-        return false;
-      }
+  for (let i = 0; i < n - 1; ++i) {
+    if (students[i] + students[i + 1] === 0) {
+      students[i] = 0;
+      students[i + 1] = 0;
+    }
+  }
 
-      return true;
-    })
-    .sort((a, b) => a - b)
-    .forEach((reserveStudentIdx) => {
-      if (students[reserveStudentIdx - 2] === -1) {
-        ++students[reserveStudentIdx - 2];
-      } else if (students[reserveStudentIdx] === -1) {
-        ++students[reserveStudentIdx];
-      }
-    });
-
-  return students.filter((student) => student === 0).length;
+  return n - students.filter((student) => student === -1).length;
 }
 
 /*

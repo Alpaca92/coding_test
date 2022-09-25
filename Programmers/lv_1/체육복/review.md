@@ -158,3 +158,32 @@ function solution(n, lost, reserve) {
 그리고 `const has = b === a - 1 || b === a + 1`으로 `탐욕법(Greedy)` 알고리즘을 잘 풀어낸 코드라고 생각한다
 
 좀 더 깔끔한 코드를 위해 매일매일 1일 1커밋을 하는 내가 되었으면 좋겠다
+
+\+ [Aug 25, 2022]
+
+다시 깔끔하게 풀어보고 싶어서 다시 풀었다
+
+체육복이 없는 사람은 -1로 여벌이 있는 사람은 1로 표현을 하고 인접해 있는 경우 일반적인 상태 0으로 변경하는 코드다
+
+```js
+function solution(n, lost, reserve) {
+  const students = new Array(n).fill(0);
+
+  lost.forEach((loser) => {
+    students[loser - 1] += -1;
+  });
+
+  reserve.forEach((reserver) => {
+    students[reserver - 1] += +1;
+  });
+
+  for (let i = 0; i < n - 1; ++i) {
+    if (students[i] + students[i + 1] === 0) {
+      students[i] = 0;
+      students[i + 1] = 0;
+    }
+  }
+
+  return n - students.filter((student) => student === -1).length;
+}
+```
