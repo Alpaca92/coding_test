@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.duplicateEncode = void 0;
+function duplicateEncode(word) {
+    const chars = new Map();
+    for (const char of word.toLowerCase()) {
+        chars.set(char, (chars.get(char) || 0) + 1);
+    }
+    return [...word.toLowerCase()].map((char) => (chars.get(char) || 0) > 2 ? ')' : '(').join('');
+}
+exports.duplicateEncode = duplicateEncode;
+duplicateEncode("Success");
+//# sourceMappingURL=answer.js.map

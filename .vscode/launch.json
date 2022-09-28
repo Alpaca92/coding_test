@@ -11,7 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/Codewar/6 kyu/Roman Numerals Decoder/answer.ts",
+      "program": "${workspaceFolder}/Codewar/6 kyu/TS_Duplicate Encoder !/answer.ts",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ],
