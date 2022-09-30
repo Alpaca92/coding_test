@@ -6,8 +6,7 @@ function duplicateEncode(word) {
     for (const char of word.toLowerCase()) {
         chars.set(char, (chars.get(char) || 0) + 1);
     }
-    return [...word.toLowerCase()].map((char) => (chars.get(char) || 0) > 2 ? ')' : '(').join('');
+    return [...word.toLowerCase()].map((char) => (chars.get(char) || 0) > 1 ? ')' : '(').join('');
 }
 exports.duplicateEncode = duplicateEncode;
-duplicateEncode("Success");
 //# sourceMappingURL=answer.js.map

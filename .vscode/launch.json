@@ -11,7 +11,8 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/Codewar/6 kyu/TS_Duplicate Encoder !/answer.ts",
+      // "program": "${workspaceFolder}/Codewar/6 kyu/TS_Duplicate Encoder !/answer.ts",
+      "program": "${workspaceFolder}/Programmers/lv_1/나누어 떨어지는 숫자 배열/answer.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ],
