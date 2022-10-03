@@ -26,5 +26,43 @@ const exception = [];
 
 위와 같이 하기 위해서 `combination`을 구현해야 했다
 
-구현하기 위해 구글링을 했고 재귀함수로 깔끔하게 구현한 것을 가져왔다 _[출처](https://nyang-in.tistory.com/212)_
+구현하기 위해 구글링을 했고 재귀함수로 깔끔하게 구현한 것을 가져왔다 _[출처](https://nyang-in.tistory.com/212)
+
+\+[Aug 30, 2022]
+
+```js
+function solution(relation) {
+  const getCombinations = (arr, select) => {
+    if (select === 1) return arr.map((el) => [el]);
+
+    let results = [];
+
+    arr.forEach((fixed, idx, origin) => {
+      const rest = origin.slice(idx + 1);
+      const combinations = getCombinations(rest, --select);
+      const attached = combinations.map((combination) => [
+        fixed,
+        ...combination,
+      ]);
+
+      results.push(...attached);
+    });
+
+    return results;
+  };
+
+  // inside loop
+  const indexes = relation[0].reduce((prev, cur, idx) => {
+    if (!cur) return prev;
+
+    return [...prev, idx];
+  }, []);
+
+  const combinations = getCombinations(indexes, 1);
+}
+```
+
+이전에 작성했던 코드인데 과거에 구현 중에 중도포기한 듯 싶다
+
+
 
