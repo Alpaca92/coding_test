@@ -12,7 +12,7 @@
         "<node_internals>/**"
       ],
       // "program": "${workspaceFolder}/Codewar/6 kyu/TS_Duplicate Encoder !/answer.ts",
-      "program": "${workspaceFolder}/Programmers/lv_1/행렬의 덧셈/answer.js",
+      "program": "${workspaceFolder}/Programmers/lv_1/같은 숫자는 싫어/answer.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ],
