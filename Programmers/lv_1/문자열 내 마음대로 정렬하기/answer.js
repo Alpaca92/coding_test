@@ -1,8 +1,8 @@
 function solution(strings, n) {
-  if (strings.length === 1) return strings;
-
-  strings.sort();
-  return strings.sort((a, b) => a[n].charCodeAt() - b[n].charCodeAt());
+  strings.sort((a, b) => {
+    if (!a[n].localeCompare(b[n])) return a.localeCompare(b);
+    return a[n].localeCompare(b[n]);
+  });
 }
 
 /*
