@@ -1,8 +1,7 @@
 function solution(nums) {
-  const maxinum = Math.floor(nums.length / 2);
-  const types = [...new Set(nums)];
-
-  return maxinum >= types.length ? types.length : maxinum;
+  return [...new Set(nums)].length >= nums.length / 2
+    ? nums.length / 2
+    : [...new Set(nums)].length;
 }
 
 /*
