@@ -1,19 +1,17 @@
-function getPrimeNumbers(numbers, divideIndex = 1) {
-  if (numbers[divideIndex] >= numbers.at(-1)) return numbers;
+function getPrimeNumbers(numbers, dividerIndex = 1) {
+  if (numbers[dividerIndex] > Math.floor(Math.sqrt(numbers.at(-1))))
+    return numbers;
 
-  const newNumbers = numbers.filter(
-    (number, _, origin) => !!(number % origin[divideIndex])
+  const filteredNumbers = numbers.filter(
+    (number, i, origin) =>
+      i <= dividerIndex || !!(number % origin[dividerIndex])
   );
 
-  if (numbers.length === newNumbers.length) return newNumbers;
-
-  return getPrimeNumbers(newNumbers, ++divideIndex);
+  return getPrimeNumbers(filteredNumbers, ++dividerIndex);
 }
 
 function solution(n) {
   const numbers = Array.from({ length: n }, (_, i) => i + 1);
 
-  return getPrimeNumbers(numbers).length;
+  return getPrimeNumbers(numbers).length - 1;
 }
-
-solution(10);

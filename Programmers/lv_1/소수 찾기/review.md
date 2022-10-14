@@ -75,4 +75,26 @@ nested for loop여서 O(n^2)으로 실패했다
 
 결국 남은 숫자는 `const numbers = [1, 2, 3, 5, 7, 11, 13, 17, 19]`로 소수만 남게된다
 
+```js
+function getPrimeNumbers(numbers, dividerIndex = 1) {
+  if (numbers[dividerIndex] > Math.floor(Math.sqrt(numbers.at(-1))))
+    return numbers;
+
+  const filteredNumbers = numbers.filter(
+    (number, i, origin) =>
+      i <= dividerIndex || !!(number % origin[dividerIndex])
+  );
+
+  return getPrimeNumbers(filteredNumbers, ++dividerIndex);
+}
+
+function solution(n) {
+  const numbers = Array.from({ length: n }, (_, i) => i + 1);
+
+  return getPrimeNumbers(numbers).length - 1;
+}
+```
+
+테스트 케이스는 모두 통과했지만 효율성 측면에서 통과하지 못했다
+
 
