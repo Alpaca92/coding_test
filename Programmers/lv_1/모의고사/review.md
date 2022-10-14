@@ -175,3 +175,28 @@ function solution(answers) {
 
 >문제를 해결하려는 마음이 급해 문제를 대충읽은 탓에 많은 시간을 허비했다<br />
 실무에 가서도 이러한 실수를 하지 않기 위해 `문제를 정확히파악하는 것을 1순위`로 두고 접근해야겠다
+
+\+ [Oct 15, 2022]
+
+```js
+function solution(answers) {
+  const answerPatterns = [
+    [1, 2, 3, 4, 5],
+    [2, 1, 2, 3, 2, 4, 2, 5],
+    [3, 3, 1, 1, 2, 2, 4, 4, 5, 5],
+  ];
+  const scores = [0, 0, 0];
+
+  answers.forEach((answer, i) => {
+    answerPatterns.forEach((answerPattern, j) => {
+      scores[j] += answer === answerPattern[i % answerPattern.length] ? 1 : 0;
+    });
+  });
+
+  return scores
+    .map((score, idx) => (score === Math.max(...scores) ? idx + 1 : null))
+    .filter((score) => score !== null);
+}
+```
+
+문제를 다시 풀러 왔다
