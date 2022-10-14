@@ -3,25 +3,25 @@
 ```js
 function solution(n) {
   let counter = 1;
-  
+
   function isPrime(num) {
     if (num === 3) return 1;
-    
+
     if (num % 2 === 0 || num % 3 === 0) return 0;
-    
+
     for (let i = 5; i * i <= num; i += 6) {
       if (num % i === 0 || num % (i + 2) === 0) {
         return 0;
       }
     }
-    
+
     return 1;
   }
-  
+
   for (let i = 2; i <= n; i++) {
-    counter += isPrime(i)
+    counter += isPrime(i);
   }
-  
+
   return counter;
 }
 ```
@@ -97,4 +97,21 @@ function solution(n) {
 
 테스트 케이스는 모두 통과했지만 효율성 측면에서 통과하지 못했다
 
+```js
+function solution(n) {
+  const numbers = Array.from({ length: n }, (_, i) => i + 1);
+  numbers[0] = 0;
 
+  for (let i = 1; i < numbers.length - 1; ++i) {
+    if (numbers[i] === 0) continue;
+
+    for (let j = i + 1; j < numbers.length; ++j) {
+      if (!(numbers[j] % numbers[i])) numbers[j] = 0;
+    }
+  }
+
+  return numbers.filter((number) => number !== 0).length;
+}
+```
+
+이 코드 또한 효율성을 통과하지 못했다
