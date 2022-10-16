@@ -1,22 +1,22 @@
 function solution(answers) {
-  // const answerPatterns = ['12345', '21232425', '3311224455'];
-  const answerPatterns = ["12345"];
+  const answerPatterns = ["12345", "21232425", "3311224455"];
   const scores = answers.reduce(
     (prev, cur, i) => {
       answerPatterns.forEach((answerPattern, j) => {
-        if (cur === +answerPattern[i % answerPattern.length])
-          prev[j] += prev[j] + 1;
+        if (cur === +answerPattern[i % answerPattern.length]) {
+          ++prev[j];
+        }
       });
-
       return prev;
     },
     [0, 0, 0]
   );
+  const winners = scores.map((score, i, origin) =>
+    score === Math.max(...origin) ? i + 1 : null
+  );
 
-  console.log(scores);
+  return winners.filter((winner) => winner);
 }
-
-solution([1, 2, 3, 4, 5]);
 
 /*
 examples
