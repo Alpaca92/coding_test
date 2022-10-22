@@ -1,17 +1,14 @@
 function solution(lottos, win_nums) {
-  const illegibleNumbers = lottos.filter((lotto) => lotto === 0).length;
-  const matchedNumbers = win_nums.reduce(
-    (acc, cur) => (acc += lottos.includes(cur) ? 1 : 0),
-    0
-  );
+  const illegible = lottos.filter((lotto) => lotto === 0).length;
+  const matched = lottos
+    .filter((lotto) => lotto !== 0)
+    .reduce((prev, cur) => (prev += win_nums.includes(cur) ? 1 : 0), 0);
 
-  const highestRank =
-    !illegibleNumbers && !matchedNumbers
-      ? 6
-      : 7 - (illegibleNumbers + matchedNumbers);
-  const lowestRank = !matchedNumbers ? 6 : 7 - matchedNumbers;
-
-  return [highestRank, lowestRank];
+  return matched
+    ? [7 - (matched + illegible), 7 - matched]
+    : illegible
+    ? [7 - illegible, 6]
+    : [6, 6];
 }
 
 /*

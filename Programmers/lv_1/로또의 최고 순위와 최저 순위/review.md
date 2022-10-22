@@ -4,9 +4,11 @@
 
 순위를 표현하는 방식이 `switch문`밖에 떠오르지 않아 `map`으로 순회하였는데 더 좋은 방법을 찾아볼 필요성이 있음
 `7 - num`으로 하드코딩하였기 때문에 최대 당첨 숫자가 6이 아니라면 수정을 하여야 하기 때문
+
 ```js
-return win_nums.length - num + 1
+return win_nums.length - num + 1;
 ```
+
 위와 같이 알아서 대응할 수 있도록 하는 것이 더 좋았을 것 같음
 
 \+ [22.09.05]
@@ -15,15 +17,37 @@ return win_nums.length - num + 1
 
 ```js
 function solution(lottos, win_nums) {
-    const rank = [6, 6, 5, 4, 3, 2, 1];
+  const rank = [6, 6, 5, 4, 3, 2, 1];
 
-    let minCount = lottos.filter(v => win_nums.includes(v)).length;
-    let zeroCount = lottos.filter(v => !v).length;
+  let minCount = lottos.filter((v) => win_nums.includes(v)).length;
+  let zeroCount = lottos.filter((v) => !v).length;
 
-    const maxCount = minCount + zeroCount;
+  const maxCount = minCount + zeroCount;
 
-    return [rank[maxCount], rank[minCount]];
+  return [rank[maxCount], rank[minCount]];
 }
 ```
 
 때로는 `rank`와 같이 랭킹표를 만드는 것이 보다 효과적일 수 있다는 것을 깨달았다
+
+\+ [Oct 23, 2022]
+
+```js
+function solution(lottos, win_nums) {
+  const illegibleNumbers = lottos.filter((lotto) => lotto === 0).length;
+  const matchedNumbers = win_nums.reduce(
+    (acc, cur) => (acc += lottos.includes(cur) ? 1 : 0),
+    0
+  );
+
+  const highestRank =
+    !illegibleNumbers && !matchedNumbers
+      ? 6
+      : 7 - (illegibleNumbers + matchedNumbers);
+  const lowestRank = !matchedNumbers ? 6 : 7 - matchedNumbers;
+
+  return [highestRank, lowestRank];
+}
+```
+
+이전에 풀었던 문제지만 한 번 더 풀어보기로 했다
