@@ -1,13 +1,14 @@
 function solution(participant, completion) {
-  for (let i = 0; i < participant.length; ++i) {
-    const completionPlayerIdx = completion.findIndex(
-      (completionPlayer) => completionPlayer === participant[i]
-    );
-    if (completionPlayerIdx === -1) return participant[i];
-    participant[i] = 0;
-    completion[completionPlayerIdx] = 0;
-  }
-  return participant.filter((player) => !!player)[0];
+  const hash = {};
+
+  participant.forEach((player, i) => {
+    hash[player] = hash[player] === undefined ? 1 : hash[player] + 1;
+    if (completion[i] !== undefined)
+      hash[completion[i]] =
+        hash[completion[i]] === undefined ? -1 : hash[completion[i]] - 1;
+  });
+
+  return Object.entries(hash).filter(([_, counter]) => counter === 1)[0][0];
 }
 
 /*
