@@ -45,3 +45,41 @@ function solution(board, moves) {
 처음에는 위와 같은 코드를 쌌는데 `map()`같은 `bulit-in function`에서는 `break, continue`같은 statement가 작동하지 않는 것을 보고 `map()`을 그냥 `for`문으로 변경하였다
 
 아직은 `for`문에 익숙하지 않아 `for...of Array`를 사용하지 않았지만 점점 익숙해지도록 노력해야겠다
+
+\+ [Oct 25, 2022]
+
+```js
+function solution(board, moves) {
+  moves = moves.map((move) => move - 1);
+
+  let result = 0;
+  let basket = [];
+
+  moves.forEach((move) => {
+    for (let i = 0; i < board.length; i++) {
+      const row = board[i];
+      const col = row[move];
+
+      if (col) {
+        basket.push(col);
+        row[move] = 0;
+        // result가 증가하는가 검증
+        if (
+          basket[basket.length - 2] &&
+          basket[basket.length - 1] &&
+          basket[basket.length - 2] === basket[basket.length - 1]
+        ) {
+          basket = basket.slice(0, basket.length - 2);
+          result += 2;
+        }
+        break;
+      }
+    }
+  });
+
+  return result;
+}
+```
+
+전에 풀었던 풀이와는 별개로 다시 한번 풀어보기로 하였다
+

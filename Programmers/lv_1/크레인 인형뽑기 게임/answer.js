@@ -1,32 +1,6 @@
 function solution(board, moves) {
-  moves = moves.map((move) => move - 1);
-
-  let result = 0;
-  let basket = [];
-
-  moves.forEach((move) => {
-    for (let i = 0; i < board.length; i++) {
-      const row = board[i];
-      const col = row[move];
-
-      if (col) {
-        basket.push(col);
-        row[move] = 0;
-        // result가 증가하는가 검증
-        if (
-          basket[basket.length - 2] &&
-          basket[basket.length - 1] &&
-          basket[basket.length - 2] === basket[basket.length - 1]
-        ) {
-          basket = basket.slice(0, basket.length - 2);
-          result += 2;
-        }
-        break;
-      }
-    }
-  });
-
-  return result;
+  var answer = 0;
+  return answer;
 }
 
 /*
