@@ -86,3 +86,109 @@ function solution(numbers, hand) {
 ```
 이 부분이 잘못되어 수정했고 몇 가지 문제를 수정했더니 해결되었다
 
+\+ [Oct 24, 2022]
+
+```js
+function solution(numbers, hand) {
+  const keypad = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    ["*", 0, "#"],
+  ];
+
+  const handInfomations = [
+    {
+      mainHand: "L",
+      coordinate: [3, 0],
+      distance: 0,
+    },
+    {
+      mainHand: "R",
+      coordinate: [3, 2],
+      distance: 0,
+    },
+  ];
+
+  const result = numbers.map((number) => {
+    const numberCoordinate = [0, 0];
+
+    for (let i = 0; i < keypad.length; i++) {
+      if (keypad[i].includes(number)) {
+        numberCoordinate[0] = i;
+        numberCoordinate[1] = keypad[i].indexOf(number);
+      }
+    }
+
+    if (numberCoordinate[1] === 0) {
+      handInfomations[0].coordinate = numberCoordinate;
+
+      return handInfomations[0].mainHand;
+    } else if (numberCoordinate[1] === 2) {
+      handInfomations[1].coordinate = numberCoordinate;
+
+      return handInfomations[1].mainHand;
+    } else {
+      for (const handInfomation of handInfomations) {
+        handInfomation.distance = 0;
+
+        for (let i = 0; i < numberCoordinate.length; i++) {
+          handInfomation.distance += Math.abs(
+            handInfomation.coordinate[i] - numberCoordinate[i]
+          );
+        }
+      }
+
+      if (handInfomations[0].distance === handInfomations[1].distance) {
+        handInfomations[hand === "right" ? 1 : 0].coordinate = numberCoordinate;
+
+        return hand[0].toUpperCase();
+      } else if (handInfomations[0].distance > handInfomations[1].distance) {
+        handInfomations[1].coordinate = numberCoordinate;
+
+        return handInfomations[1].mainHand;
+      } else {
+        handInfomations[0].coordinate = numberCoordinate;
+
+        return handInfomations[0].mainHand;
+      }
+    }
+  });
+
+  return result.join("");
+}
+```
+
+위 코드보다 좀 더 괜찮은 코드를 짜보고 싶었다
+
+우수 풀이를 보니 position을 정말 잘 짠 것 같았다
+
+```js
+function solution(numbers, hand) {
+  hand = hand[0] === "r" ? "R" : "L"
+  let position = [1, 4, 4, 4, 3, 3, 3, 2, 2, 2]
+  let h = { L: [1, 1], R: [1, 1] }
+  return numbers.map(x => {
+    if (/[147]/.test(x)) {
+      h.L = [position[x], 1]
+      return "L"
+    }
+    if (/[369]/.test(x)) {
+      h.R = [position[x], 1]
+      return "R"
+    }
+    let distL = Math.abs(position[x] - h.L[0]) + h.L[1]
+    let distR = Math.abs(position[x] - h.R[0]) + h.R[1]
+    if (distL === distR) {
+      h[hand] = [position[x], 0]
+      return hand
+    }
+    if (distL < distR) {
+      h.L = [position[x], 0]
+      return "L"
+    }
+    h.R = [position[x], 0]
+    return "R"
+  }).join("")
+}
+```

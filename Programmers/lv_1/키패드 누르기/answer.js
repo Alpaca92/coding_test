@@ -1,76 +1,58 @@
 function solution(numbers, hand) {
-  const keypad = [
+  const keys = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
     ["*", 0, "#"],
   ];
+  const positions = {
+    left: [3, 0],
+    right: [3, 2],
+  };
 
-  const handInfomations = [
-    {
-      mainHand: "L",
-      coordinate: [3, 0],
-      distance: 0,
-    },
-    {
-      mainHand: "R",
-      coordinate: [3, 2],
-      distance: 0,
-    },
-  ];
+  const resultArr = numbers.map((number) => {
+    let currentPosition = null;
 
-  const result = numbers.map((number) => {
-    const numberCoordinate = [0, 0];
-
-    for (let i = 0; i < keypad.length; i++) {
-      if (keypad[i].includes(number)) {
-        numberCoordinate[0] = i;
-        numberCoordinate[1] = keypad[i].indexOf(number);
+    for (let row = 0; row < keys.length; ++row) {
+      const column = keys[row].findIndex((el) => el === number);
+      if (column !== -1) {
+        currentPosition = [row, column];
+        break;
       }
     }
 
-    if (numberCoordinate[1] === 0) {
-      handInfomations[0].coordinate = numberCoordinate;
+    switch (currentPosition[1]) {
+      case 0:
+        positions["left"] = currentPosition;
+        return "L";
+      case 2:
+        positions["right"] = currentPosition;
+        return "R";
+      case 1:
+        const [leftRow, leftColumn] = positions["left"];
+        const [rightRow, rightColumn] = positions["right"];
+        const [currentRow, currentColumn] = currentPosition;
+        const leftDistance =
+          Math.abs(leftRow - currentRow) + Math.abs(leftColumn - currentColumn);
+        const rightDistance =
+          Math.abs(rightRow - currentRow) +
+          Math.abs(rightColumn - currentColumn);
 
-      return handInfomations[0].mainHand;
-    } else if (numberCoordinate[1] === 2) {
-      handInfomations[1].coordinate = numberCoordinate;
-
-      return handInfomations[1].mainHand;
-    } else {
-      for (const handInfomation of handInfomations) {
-        handInfomation.distance = 0;
-
-        for (let i = 0; i < numberCoordinate.length; i++) {
-          handInfomation.distance += Math.abs(
-            handInfomation.coordinate[i] - numberCoordinate[i]
-          );
+        if (leftDistance - rightDistance < 0) {
+          positions["left"] = currentPosition;
+          return "L";
+        } else if (leftDistance - rightDistance > 0) {
+          positions["right"] = currentPosition;
+          return "R";
+        } else {
+          positions[hand] = currentPosition;
+          return hand[0].toUpperCase();
         }
-      }
-
-      if (handInfomations[0].distance === handInfomations[1].distance) {
-        handInfomations[hand === "right" ? 1 : 0].coordinate = numberCoordinate;
-
-        return hand[0].toUpperCase();
-      } else if (handInfomations[0].distance > handInfomations[1].distance) {
-        handInfomations[1].coordinate = numberCoordinate;
-
-        return handInfomations[1].mainHand;
-      } else {
-        handInfomations[0].coordinate = numberCoordinate;
-
-        return handInfomations[0].mainHand;
-      }
     }
   });
 
-  return result.join("");
+  return resultArr.join("");
 }
-
-const numbers = [7, 0, 8, 2, 8, 3, 1, 5, 7, 6, 2];
-const hand = "left";
-
-console.log(solution(numbers, hand));
 
 /*
 examples
