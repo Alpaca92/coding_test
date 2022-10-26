@@ -10,7 +10,7 @@
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
       // "program": "${workspaceFolder}/Codewar/6 kyu/TS_Duplicate Encoder !/answer.ts",
-      "program": "${workspaceFolder}/Programmers/lv_1/키패드 누르기/answer.js",
+      "program": "${workspaceFolder}/Programmers/lv_1/크레인 인형뽑기 게임/answer.js",
       "outFiles": ["${workspaceFolder}/**/*.js"],
       // added
       "preLaunchTask": "tsc: build - tsconfig.json"
