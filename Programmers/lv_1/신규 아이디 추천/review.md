@@ -86,9 +86,9 @@ function solution(new_id) {
 function solution(new_id) {
   const id = new_id
     .toLowerCase()
-    .replace(/\.{2,}/g, ".")
     .replace(/^\.|\.$/g, "")
-    .match(/[\.]|[-]|[_]|[\w]/g);
+    .match(/[\.]|[-]|[_]|[\w]/g).join('')
+    .replace(/\.{2,}/g, ".");
 
   if (id.length === 0) {
     return "aaa";
@@ -105,4 +105,20 @@ function solution(new_id) {
 
 위 코드를 풀었는데 길이가 2이하인 경우에서나 길이가 16초과해서 잘라버렸을 때, 끝이 .으로 끝나는 경우가 있어서 문제가 발생했다
 
-이를 해결하는 코드의 순서를 조금 변경해야 할 것 같다
+이를 해결하는 코드의 순서를 조금 변경했다
+
+```js
+function solution(new_id) {
+    const answer = new_id
+        .toLowerCase() // 1
+        .replace(/[^\w-_.]/g, '') // 2
+        .replace(/\.+/g, '.') // 3
+        .replace(/^\.|\.$/g, '') // 4
+        .replace(/^$/, 'a') // 5
+        .slice(0, 15).replace(/\.$/, ''); // 6
+    const len = answer.length;
+    return len > 2 ? answer : answer + answer.charAt(len - 1).repeat(3 - len);
+}
+```
+
+다른 사람 풀이를 보니 `/^$/`이 빈 문자열이라는걸 깨달았고 정말 센스있는 풀이었던 것 같다

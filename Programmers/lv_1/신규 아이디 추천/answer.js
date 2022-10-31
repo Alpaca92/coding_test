@@ -1,20 +1,20 @@
 function solution(new_id) {
   const id = new_id
     .toLowerCase()
+    .match(/[\.]|[-]|[_]|[\w]/g)
+    .join("")
     .replace(/\.{2,}/g, ".")
-    .replace(/^\.|\.$/g, "")
-    .match(/[\.]|[-]|[_]|[\w]/g);
+    .replace(/^\.|\.$/g, "");
 
   if (id.length === 0) {
     return "aaa";
   } else if (id.length > 15) {
-    id.splice(15);
-    return id.join("").replace(/\.$/g, "");
+    return id.slice(0, 15).replace(/\.$/g, "");
   } else if (id.length <= 2) {
     const lastChar = id[id.length - 1];
-    return [...id, lastChar, lastChar].slice(0, 3).join("");
+    return `${id}${lastChar}${lastChar}`.slice(0, 3);
   }
-  return id.join("");
+  return id;
 }
 
 /*
