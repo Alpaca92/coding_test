@@ -107,3 +107,35 @@ function solution(id_list, report, k) {
 처음에 중복되는 데이터를 없애고 split으로 2차원 배열을 만드는 것까지는 비슷했지만 이를 다루는 방식에서 큰 차이가 났던 것 같다
 
 문제를 좀 더 직관적으로 보는 시각을 더 키워야겠다
+
+\+[Oct 31, 2022]
+
+```js
+function solution(id_list, report, k) {
+  const result = new Array(id_list.length).fill(0);
+  const setReport = Array.from(new Set([...report]));
+  const reportedList = setReport.map((content) => content.split(" ")[1]);
+  reportedList.reduce((counter, person) => {
+    counter[person] = counter[person] ? counter[person] + 1 : 1;
+
+    if (counter[person] === k) {
+      const regex = new RegExp(` ${person}$`);
+      const feedbackable = setReport.filter((content) => regex.test(content));
+
+      feedbackable.forEach((content) => {
+        const id = content.split(" ")[0];
+        const index = id_list.indexOf(id);
+
+        ++result[index];
+      });
+    }
+
+    return counter;
+  }, {});
+
+  return result;
+}
+```
+
+새로운 풀이를 위해 다시 풀어보았다
+
