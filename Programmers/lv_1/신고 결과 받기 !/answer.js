@@ -1,6 +1,20 @@
 function solution(id_list, report, k) {
-  // report를 set으로 중복신고를 거름
-  // 
+  const result = {};
+  const reportedList = id_list.reduce((list, id) => {
+    const regex = new RegExp(` ${id}`);
+    const reporters = report
+      .filter((el) => regex.test(el))
+      .map((el) => el.split(" ")[0]);
+
+    return { ...list, [id]: [...new Set(reporters)] };
+  }, {});
+
+  Object.entries(reportedList).forEach(([reportedName, reporters]) => {
+    if (reporters.length >= k)
+      reporters.forEach(
+        (reporter) => (result[reporter] = (result[reporter] || 0) + 1)
+      );
+  });
 }
 
 /*
