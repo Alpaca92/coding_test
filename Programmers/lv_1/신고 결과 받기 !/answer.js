@@ -15,18 +15,14 @@ function solution(id_list, report, k) {
       .map((el) => el.split(" ")[1]);
 
     bannedList.forEach((banned) => {
-      result[i] = (result[i] || 0) + reportedList.includes(banned) ? 1 : 0; // 증감식만 해결하면 될듯
+      result[i] = (result[i] || 0) + (reportedList.includes(banned) ? 1 : 0);
     });
 
     return result;
   }, []);
 }
 
-solution(
-  ["muzi", "frodo", "apeach", "neo"],
-  ["muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi"],
-  2
-);
+solution(["con", "ryan"], ["ryan con", "ryan con", "ryan con", "ryan con"], 3);
 
 /*
 examples
