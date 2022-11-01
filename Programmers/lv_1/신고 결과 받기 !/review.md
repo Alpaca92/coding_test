@@ -139,3 +139,29 @@ function solution(id_list, report, k) {
 
 새로운 풀이를 위해 다시 풀어보았다
 
+```js
+function solution(id_list, report, k) {
+  const result = {};
+  const reportedList = id_list.reduce((list, id) => {
+    const regex = new RegExp(` ${id}`);
+    const reporters = report
+      .filter((el) => regex.test(el))
+      .map((el) => el.split(" ")[0]);
+
+    return { ...list, [id]: [...new Set(reporters)] };
+  }, {});
+
+  Object.entries(reportedList).forEach(([reportedName, reporters]) => {
+    if (reporters.length >= k)
+      reporters.forEach(
+        (reporter) => (result[reporter] = (result[reporter] || 0) + 1)
+      );
+  });
+
+  return id_list.map((id) => result[id] || 0);
+}
+```
+
+거의 대부분을 실패하고 가끔 시간초과인 부분도 있었다
+
+

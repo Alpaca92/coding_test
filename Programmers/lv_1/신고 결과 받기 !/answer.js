@@ -1,21 +1,32 @@
 function solution(id_list, report, k) {
-  const result = {};
-  const reportedList = id_list.reduce((list, id) => {
+  const reportSet = [...new Set(report)];
+  const bannedList = id_list.reduce((banned, id) => {
     const regex = new RegExp(` ${id}`);
-    const reporters = report
+    const reportedCounter = reportSet.filter((el) => regex.test(el)).length;
+
+    if (reportedCounter >= k) return [...banned, id];
+    return banned;
+  }, []);
+
+  return id_list.reduce((result, id, i) => {
+    const regex = new RegExp(`${id} `);
+    const reportedList = reportSet
       .filter((el) => regex.test(el))
-      .map((el) => el.split(" ")[0]);
+      .map((el) => el.split(" ")[1]);
 
-    return { ...list, [id]: [...new Set(reporters)] };
-  }, {});
+    bannedList.forEach((banned) => {
+      result[i] = (result[i] || 0) + reportedList.includes(banned) ? 1 : 0; // 증감식만 해결하면 될듯
+    });
 
-  Object.entries(reportedList).forEach(([reportedName, reporters]) => {
-    if (reporters.length >= k)
-      reporters.forEach(
-        (reporter) => (result[reporter] = (result[reporter] || 0) + 1)
-      );
-  });
+    return result;
+  }, []);
 }
+
+solution(
+  ["muzi", "frodo", "apeach", "neo"],
+  ["muzi frodo", "apeach frodo", "frodo neo", "muzi neo", "apeach muzi"],
+  2
+);
 
 /*
 examples
