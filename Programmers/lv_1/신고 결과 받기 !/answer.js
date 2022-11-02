@@ -14,6 +14,11 @@ function solution(id_list, report, k) {
       .filter((el) => regex.test(el))
       .map((el) => el.split(" ")[1]);
 
+    if (reportedList.length === 0) {
+      result[i] = 0;
+      return result;
+    }
+
     bannedList.forEach((banned) => {
       result[i] = (result[i] || 0) + (reportedList.includes(banned) ? 1 : 0);
     });
