@@ -164,4 +164,37 @@ function solution(id_list, report, k) {
 
 거의 대부분을 실패하고 가끔 시간초과인 부분도 있었다
 
+```js
+function solution(id_list, report, k) {
+  const reportSet = [...new Set(report)];
+  const bannedList = id_list.reduce((banned, id) => {
+    const regex = new RegExp(` ${id}`);
+    const reportedCounter = reportSet.filter((el) => regex.test(el)).length;
+
+    if (reportedCounter >= k) return [...banned, id];
+    return banned;
+  }, []);
+
+  return id_list.reduce((result, id, i) => {
+    const regex = new RegExp(`${id} `);
+    const reportedList = reportSet
+      .filter((el) => regex.test(el))
+      .map((el) => el.split(" ")[1]);
+
+    if (bannedList.length === 0 || reportedList.length === 0) {
+      result[i] = 0;
+      return result;
+    }
+
+    bannedList.forEach((banned) => {
+      result[i] = (result[i] || 0) + (reportedList.includes(banned) ? 1 : 0);
+    });
+
+    return result;
+  }, []);
+}
+````
+
+한 케이스에서 시간초과하였고, 거의 대부분의 케이스에서 실패하였다
+
 
